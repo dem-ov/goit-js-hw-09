@@ -1,75 +1,88 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import Notiflix from 'notiflix';
+import 'notiflix/dist/notiflix-3.2.5.min.css';
 
-// Получаем элементы интерфейса
-const datetimePicker = document.querySelector('#datetime-picker');
-const startButton = document.querySelector('[data-start]');
-const daysValue = document.querySelector('[data-days]');
-const hoursValue = document.querySelector('[data-hours]');
-const minutesValue = document.querySelector('[data-minutes]');
-const secondsValue = document.querySelector('[data-seconds]');
+const startBtn = document.querySelector('button[data-start]');
+const dateChosen = document.querySelector('#datetime-picker');
+const d = document.querySelector('[data-days]');
+const h = document.querySelector('[data-hours]');
+const m = document.querySelector('[data-minutes]');
+const s = document.querySelector('[data-seconds]');
 
-// Настройки для flatpickr
+let timer = null;
+
+startBtn.disabled = true;
+
+//flatpickr
+
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates) {
-    // Получаем выбранную пользователем дату
-    const selectedDate = selectedDates[0];
+  onClose(selectedDate) {
+    // const currentDate = new Date();
+    if (selectedDate[0] <= new Date()) {
+      startBtn.disabled = true;
+      Notiflix.Notify.failure('Please choose a date in the future');
+    } else {
+      startBtn.disabled = false;
 
-    // Если выбранная дата в прошлом, выводим сообщение об ошибке
-    if (selectedDate < new Date()) {
-      window.alert('Please choose a date in the future');
-      return;
+      startBtn.addEventListener('click', countdownTime);
+
+      // time counter
+
+      function countdownTime() {
+        timer = setInterval(() => {
+          startBtn.disabled = true;
+
+          // https://stackoverflow.com/questions/4310953/invalid-date-in-safari
+
+          const dateChoosenMs = new Date(
+            dateChosen.value.replace(/-/g, '/')
+          ).getTime();
+          const now = new Date().getTime();
+          const timeLeft = dateChoosenMs - now;
+
+          const { days, hours, minutes, seconds } = convertMs(timeLeft);
+
+          d.innerHTML = days < 10 ? addLeadingZero(days) : days;
+          h.innerHTML = hours < 10 ? addLeadingZero(hours) : hours;
+          m.innerHTML = minutes < 10 ? addLeadingZero(minutes) : minutes;
+          s.innerHTML = seconds < 10 ? addLeadingZero(seconds) : seconds;
+
+          if (timeLeft < 1000) {
+            clearInterval(timer);
+            startBtn.disabled = false;
+          }
+        }, 1000);
+      }
+
+      // addLeadingZero
+
+      function addLeadingZero(value) {
+        const stringValue = String(value);
+        return stringValue.padStart(2, '0');
+      }
+
+      // convert
+
+      function convertMs(ms) {
+        const second = 1000;
+        const minute = second * 60;
+        const hour = minute * 60;
+        const day = hour * 24;
+
+        const days = Math.floor(ms / day);
+        const hours = Math.floor((ms % day) / hour);
+        const minutes = Math.floor(((ms % day) % hour) / minute);
+        const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+
+        return { days, hours, minutes, seconds };
+      }
     }
-
-    // Делаем кнопку "Start" активной
-    startButton.disabled = false;
-
-    // Обработчик события на кнопку "Start"
-    startButton.addEventListener('click', function () {
-      startTimer(selectedDate);
-    });
   },
 };
 
-// Инициализируем flatpickr на поле datetimePicker
-flatpickr(datetimePicker, options);
-
-// Функция запуска таймера
-function startTimer(selectedDate) {
-  // Получаем текущую дату и время
-  const currentDate = new Date();
-
-  // Вычисляем разницу между выбранной датой и текущей датой в миллисекундах
-  const diff = selectedDate.getTime() - currentDate.getTime();
-
-  // Если выбранная дата уже прошла, выходим из функции
-  if (diff <= 0) {
-    return;
-  }
-
-  // Разбиваем разницу на дни, часы, минуты и секунды
-  let seconds = Math.floor(diff / 1000);
-  let minutes = Math.floor(seconds / 60);
-  let hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-
-  // Функция форматирования значений времени
-  function formatValue(value) {
-    return value.toString().padStart(2, '0');
-  }
-
-  // Отображаем полученные значения на экране
-  daysValue.innerText = formatValue(days);
-  hoursValue.innerText = formatValue(hours % 24);
-  minutesValue.innerText = formatValue(minutes % 60);
-  secondsValue.innerText = formatValue(seconds % 60);
-
-  // Обновляем значения каждую секунду
-  setTimeout(() => {
-    startTimer(selectedDate);
-  }, 1000);
-}
+flatpickr(dateChosen, options);
