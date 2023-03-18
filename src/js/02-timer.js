@@ -32,7 +32,7 @@ class CountdownTimer {
       document.querySelector(`${this.selector}`).innerHTML =
         'The countdown is over!';
 
-      clearInterval(intervalId);
+      clearInterval(this.intervalId);
     }
   }
 
