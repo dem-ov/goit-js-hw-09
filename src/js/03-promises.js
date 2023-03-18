@@ -2,8 +2,8 @@ import Notiflix from 'notiflix';
 import 'notiflix/dist/notiflix-aio-3.2.6.min.js';
 
 
-const form = document.querySelector('.form');
 
+const form = document.querySelector('.form');
 const firstDelayMs = document.querySelector('[name="delay"]');
 const delayStepMs = document.querySelector('[name="step"]');
 const amount = document.querySelector('[name="amount"]');
