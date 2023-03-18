@@ -9,7 +9,6 @@ const d = document.querySelector('[data-days]');
 const h = document.querySelector('[data-hours]');
 const m = document.querySelector('[data-minutes]');
 const s = document.querySelector('[data-seconds]');
-
 let timer = null;
 
 startBtn.disabled = true;
