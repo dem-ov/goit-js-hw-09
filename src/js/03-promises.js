@@ -1,8 +1,6 @@
 import Notiflix from 'notiflix';
 import 'notiflix/dist/notiflix-aio-3.2.6.min.js';
 
-
-
 const form = document.querySelector('.form');
 const firstDelayMs = document.querySelector('[name="delay"]');
 const delayStepMs = document.querySelector('[name="step"]');
@@ -10,14 +8,11 @@ const amount = document.querySelector('[name="amount"]');
 
 form.addEventListener('submit', submitCreatePromises);
 
-
 function submitCreatePromises(e) {
   e.preventDefault();
-
   let delay = firstDelayMs.valueAsNumber;
   const delayStepMsVal = delayStepMs.valueAsNumber;
   const amountVal = amount.valueAsNumber;
-
   for (let i = 1; i <= amountVal; i++) {
     createPromise(i, delay)
       .then(({ position, delay }) => {
@@ -29,7 +24,6 @@ function submitCreatePromises(e) {
     delay += delayStepMsVal;
   }
 }
-
 
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
