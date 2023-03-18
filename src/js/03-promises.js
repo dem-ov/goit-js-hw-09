@@ -1,7 +1,6 @@
 import Notiflix from 'notiflix';
 import 'notiflix/dist/notiflix-aio-3.2.6.min.js';
 
-// Form and its inputs
 
 const form = document.querySelector('.form');
 
