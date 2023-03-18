@@ -14,15 +14,12 @@ let timer = null;
 
 startBtn.disabled = true;
 
-//flatpickr
-
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDate) {
-    // const currentDate = new Date();
     if (selectedDate[0] <= new Date()) {
       startBtn.disabled = true;
       Notiflix.Notify.failure('Please choose a date in the future');
@@ -31,13 +28,9 @@ const options = {
 
       startBtn.addEventListener('click', countdownTime);
 
-      // time counter
-
       function countdownTime() {
         timer = setInterval(() => {
           startBtn.disabled = true;
-
-          // https://stackoverflow.com/questions/4310953/invalid-date-in-safari
 
           const dateChoosenMs = new Date(
             dateChosen.value.replace(/-/g, '/')
@@ -59,14 +52,10 @@ const options = {
         }, 1000);
       }
 
-      // addLeadingZero
-
       function addLeadingZero(value) {
         const stringValue = String(value);
         return stringValue.padStart(2, '0');
       }
-
-      // convert
 
       function convertMs(ms) {
         const second = 1000;
