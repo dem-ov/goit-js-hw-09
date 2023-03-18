@@ -1,38 +1,6 @@
-// Подключаем стили
 import '../sass/_common.scss';
 import '../sass/_timer.scss';
 
-// // ======== СПОСОБ №1 ========
-// Установка даты окончания
-// const endDate = new Date("Apr 23, 2022 12:00:00").getTime();
-
-// // Определяем таймер
-// const intervalId = setInterval(
-//   function() {
-//   // Расчёт оставшегося времени
-//   let dateNow = new Date().getTime();
-//   let time = endDate - dateNow;
-
-//   if (time >= 0) {
-//     // Конвертация UTC в дни, часы, минуты и секунды
-//     let days = Math.floor(time / (1000 * 60 * 60 * 24));
-//     let hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-//     let mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-//     let secs = Math.floor((time % (1000 * 60)) / 1000);
-
-//     // Вывод таймера
-//     document.querySelector('span[data-value="days"]').innerHTML = days;
-//     document.querySelector('span[data-value="hours"]').innerHTML = ("0"+hours).slice(-2);
-//     document.querySelector('span[data-value="mins"]').innerHTML = ("0"+mins).slice(-2);
-//     document.querySelector('span[data-value="secs"]').innerHTML = ("0"+secs).slice(-2);
-//   } else {
-//     // Уведомление для пользователя, когда закончился отсчёт
-//     document.getElementById("timer-1").innerHTML = "The countdown is over!";
-//     clearInterval(intervalId);
-//   };
-// }, 1000);
-
-// ======== СПОСОБ №2 =========
 class CountdownTimer {
   constructor({ selector, targetDate }) {
     this.intervalId = null;
@@ -54,14 +22,12 @@ class CountdownTimer {
     let dateNow = Date.now();
     let deltaTime = this.targetDate - dateNow;
 
-    this.timerReview(deltaTime); // ???
+    this.timerReview(deltaTime);
 
     this.getTimeComponents(deltaTime);
   }
 
-  // Проверка на время
   timerReview(time) {
-    // ???
     if (time < 0) {
       document.querySelector(`${this.selector}`).innerHTML =
         'The countdown is over!';
