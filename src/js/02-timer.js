@@ -1,7 +1,7 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix from 'notiflix';
-import 'notiflix/dist/notiflix-3.2.5.min.css';
+import 'dist/notiflix-aio-3.2.6.min.js';
 
 const startBtn = document.querySelector('button[data-start]');
 const dateChosen = document.querySelector('#datetime-picker');
@@ -14,14 +14,12 @@ let timer = null;
 
 startBtn.disabled = true;
 
-
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDate) {
-
     if (selectedDate[0] <= new Date()) {
       startBtn.disabled = true;
       Notiflix.Notify.failure('Please choose a date in the future');
@@ -30,11 +28,9 @@ const options = {
 
       startBtn.addEventListener('click', countdownTime);
 
-
       function countdownTime() {
         timer = setInterval(() => {
           startBtn.disabled = true;
-
 
           const dateChoosenMs = new Date(
             dateChosen.value.replace(/-/g, '/')
@@ -56,13 +52,10 @@ const options = {
         }, 1000);
       }
 
-
       function addLeadingZero(value) {
         const stringValue = String(value);
         return stringValue.padStart(2, '0');
       }
-
-
 
       function convertMs(ms) {
         const second = 1000;
