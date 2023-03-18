@@ -8,7 +8,6 @@ const firstDelayMs = document.querySelector('[name="delay"]');
 const delayStepMs = document.querySelector('[name="step"]');
 const amount = document.querySelector('[name="amount"]');
 
-
 form.addEventListener('submit', submitCreatePromises);
 
 
