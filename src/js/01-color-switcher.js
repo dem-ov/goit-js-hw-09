@@ -26,6 +26,5 @@ function onBtnClickStop() {
 
   clearInterval(timerlId);
 }
-
 refs.start.addEventListener('click', onBtnClickStart);
 refs.stop.addEventListener('click', onBtnClickStop);
